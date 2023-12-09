@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "RecursiveMD5"
+version = "0.0.3"
+authors = [
+  { name="Aleksand Piachev", email="urbanmen93@gmail.com" },
+]
+description = "RecursiveMD5 is a Python program that generates hash values for individual files"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "tqdm",
+]
+
+[project.scripts]
+RecursiveMD5 = "recursivemd5:recursivemd5"
+
+[project.urls]
+Homepage = "https://github.com/pypa/sampleproject"
+Issues = "https://github.com/pypa/sampleproject/issues"

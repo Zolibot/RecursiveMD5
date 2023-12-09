@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import os
 import argparse
 import hashlib
@@ -43,7 +44,7 @@ def recursive_dir(folder_path):
 
 
 def create_md5(file_path):
-    h = hashlib.new("md5")
+    h = hashlib.md5()
     with open(file_path, "rb") as f:
         file = f.read()
         h.update(file)
@@ -54,7 +55,7 @@ def create_md5(file_path):
 
 
 def seq_md5(files):
-    for file in tqdm(files):
+    for file in tqdm(files, disable=not args.verbose):
         create_md5(file)
 
 
@@ -62,6 +63,7 @@ if __name__ == "__main__":
     MAIN_FOLDER = args.folder
     if not os.path.isdir(args.folder):
         raise ValueError("Argument must be a directory")
-    print("scan directory")
+    if args.verbose:
+        print("scan directory")
     f = recursive_dir(args.folder)
     seq_md5(f)

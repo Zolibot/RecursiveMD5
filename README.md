@@ -1,6 +1,15 @@
 ## RecursiveMD5
 
-RecursiveMD5 is a Python program that generates hash values for individual files or entire directories. It supports a variety of hash algorithms and can be used to verify the integrity of downloaded files or backup data.
+Description: RecursiveMD5 is a Python program that generates hash values for individual files
+        |
+        |
+        |Example::
+        |
+        |    >>> python RecursiveMD5.py folder
+        |    md5sum.md5
+        |
+
+RecursiveMD5 is a Python program that generates hash values for individual files. ~~It supports a variety of hash algorithms~~ and can be used to verify the integrity of downloaded files or backup data.
 
 ### Usage
 
@@ -20,8 +29,9 @@ RecursiveMD5 also includes two optional arguments:
 
 ### Requirements
 
-RecursiveMD5 requires Python 3.x to run. No additional libraries or dependencies are needed.
+- RecursiveMD5 requires Python 3.x to run.
+-  tqdm
 
 ### License
 
-RecursiveMD5 is licensed under the MIT License. See the LICENSE file for more information.
+RecursiveMD5 is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
