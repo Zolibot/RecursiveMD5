@@ -21,8 +21,7 @@ dependencies = [
 ]
 
 [project.scripts]
-RecursiveMD5 = "recursivemd5:recursivemd5"
+RecursiveMD5 = "recursivemd5.recursivemd5:main"
 
 [project.urls]
-Homepage = "https://github.com/pypa/sampleproject"
-Issues = "https://github.com/pypa/sampleproject/issues"
+Homepage = "https://github.com/Zolibot/RecursiveMD5"

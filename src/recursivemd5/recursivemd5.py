@@ -20,11 +20,11 @@ parser.add_argument(
         to utilize the md5 function.",
 )
 parser.add_argument("-v", "--verbose", action="store_true")
-args = parser.parse_args()
+
 
 MD5_FILES = []
 MAIN_FOLDER = ""
-
+args = ""
 
 def add_line(destination, data):
     with open(destination + "md5sum.md5", "a") as f:
@@ -49,8 +49,6 @@ def create_md5(file_path):
         file = f.read()
         h.update(file)
     hsh_d = h.hexdigest() + " " + os.path.relpath(file_path, start=MAIN_FOLDER)
-    if args.verbose:
-        print(hsh_d)
     add_line(MAIN_FOLDER, hsh_d)
 
 
@@ -59,7 +57,9 @@ def seq_md5(files):
         create_md5(file)
 
 
-if __name__ == "__main__":
+def main():
+    global MAIN_FOLDER, args
+    args = parser.parse_args()
     MAIN_FOLDER = args.folder
     if not os.path.isdir(args.folder):
         raise ValueError("Argument must be a directory")
@@ -67,3 +67,6 @@ if __name__ == "__main__":
         print("scan directory")
     f = recursive_dir(args.folder)
     seq_md5(f)
+
+if __name__ == "__main__":
+    main()
