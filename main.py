@@ -2,6 +2,7 @@ import os
 import argparse
 import hashlib
 
+from tqdm import tqdm
 
 parser = argparse.ArgumentParser(
     prog="RecursiveMD5",
@@ -15,19 +16,13 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "folder",
     help="Specify the directory path where you intend\
-                                    to utilize the md5 function.",
+        to utilize the md5 function.",
 )
 parser.add_argument("-v", "--verbose", action="store_true")
-
 args = parser.parse_args()
 
-
-def create_md5(file_path):
-    with open(file_path, "rb") as f:
-        file = f.read()
-    h = hashlib.new("md5")
-    h.update(file)
-    return h.hexdigest()
+MD5_FILES = []
+MAIN_FOLDER = ""
 
 
 def add_line(destination, data):
@@ -36,26 +31,37 @@ def add_line(destination, data):
         f.write("\n")
 
 
-def recursive_dir(folder_path, root_folder):
-    md5_files = []
+def recursive_dir(folder_path):
     files = os.listdir(folder_path)
     for file in files:
         full_path = os.path.join(folder_path, file)
         if os.path.isdir(full_path):
-            recursive_dir(full_path, root_folder)
+            recursive_dir(full_path)
         else:
-            data = (
-                str(create_md5(full_path))
-                + " "
-                + os.path.relpath(full_path, start=root_folder)
-            )
-            if args.verbose:
-                print(data)
-            md5_files.append(data)
-            add_line(root_folder, data)
-    return md5_files
+            MD5_FILES.append(full_path)
+    return MD5_FILES
+
+
+def create_md5(file_path):
+    h = hashlib.new("md5")
+    with open(file_path, "rb") as f:
+        file = f.read()
+        h.update(file)
+    hsh_d = h.hexdigest() + " " + os.path.relpath(file_path, start=MAIN_FOLDER)
+    if args.verbose:
+        print(hsh_d)
+    add_line(MAIN_FOLDER, hsh_d)
+
+
+def seq_md5(files):
+    for file in tqdm(files):
+        create_md5(file)
 
 
 if __name__ == "__main__":
-    root_folder = args.folder
-    recursive_dir(args.folder, root_folder)
+    MAIN_FOLDER = args.folder
+    if not os.path.isdir(args.folder):
+        raise ValueError("Argument must be a directory")
+    print("scan directory")
+    f = recursive_dir(args.folder)
+    seq_md5(f)
